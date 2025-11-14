@@ -1,0 +1,184 @@
+/* --- ESTILOS BASE DEL DASHBOARD --- */
+.dashboard-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f4f4;
+    padding: 20px;
+}
+
+.dashboard-box {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 90%;
+    max-width: 1200px;
+    max-height: 90vh; 
+    overflow-y: auto; 
+}
+
+/* ... (Otros estilos como h1, hr, button se mantienen) ... */
+
+/* -------------------------------------------------------- */
+/* --- CUADRÍCULA Y LÓGICA DE HOVER (Scroll Vertical) --- */
+/* -------------------------------------------------------- */
+
+.item-category-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); 
+    gap: 20px;
+    margin-top: 2rem;
+}
+
+.item-category-card {
+    position: relative; 
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #fff;
+    transition: all 0.3s ease; 
+    cursor: default;
+    
+    /* Altura inicial de la tarjeta colapsada - SÓLO la portada */
+    height: 150px; 
+    
+    /* Alineamos el contenido al centro para la portada */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    padding: 10px;
+}
+
+/* --- EFECTO HOVER: Expandir la tarjeta y habilitar scroll vertical --- */
+.item-category-card:hover {
+    height: 400px; /* <--- Altura Máxima Expandida (ajusta este valor) */
+    overflow-y: auto; /* <--- Habilita el scroll vertical al hacer hover */
+    background: #fafafa;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    
+    /* Cambiamos la alineación para que la portada no quede centrada verticalmente en el contenedor expandido */
+    justify-content: flex-start; 
+}
+
+.category-cover {
+    /* Aseguramos que la portada siempre esté visible */
+    z-index: 1; /* Para que quede por encima del contenido oculto si hay solapamiento */
+    /* Otros estilos de portada si los necesitas, como margen-bottom */
+    margin-bottom: 10px; /* Añade un pequeño espacio entre la portada y el scroll container al expandir */
+}
+
+.category-icon {
+    width: 64px;
+    height: 64px;
+}
+
+.category-name {
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-top: 5px;
+    color: #333;
+}
+
+/* -------------------------------------------------------- */
+/* --- CAMBIOS CLAVE AQUÍ: Ocultar/Mostrar el Scroll Container --- */
+/* -------------------------------------------------------- */
+.category-scroll-container {
+    /* OCULTAR POR DEFECTO */
+    display: none; 
+    
+
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    box-shadow: none;
+    opacity: 0; /* Lo ocultamos completamente */
+    visibility: hidden; /* También lo hacemos invisible */
+    transform: translateY(20px); /* Un pequeño efecto de entrada/salida */
+    transition: opacity 0.3s ease, transform 0.3s ease; /* Suavizamos la transición */
+}
+
+.item-category-card:hover .category-scroll-container {
+    /* MOSTRAR AL HACER HOVER */
+    display: block; /* <--- Se vuelve visible y ocupa espacio */
+    
+    opacity: 1; /* Lo hacemos visible */
+    visibility: visible; /* Aseguramos que sea visible */
+    transform: translateY(0); /* Lo movemos a su posición final */
+    
+    /* Aseguramos que el contenido scrollable use todo el espacio restante */
+    flex-grow: 1; 
+    width: 100%;
+}
+
+
+/* Estilos de los ítems individuales dentro del scroll (se mantienen) */
+.item-card-detail {
+    display: flex; 
+    align-items: center;
+    text-align: left;
+    padding: 5px 0;
+    border-top: 1px solid #eee;
+}
+
+.item-card-detail .item-icon {
+    width: 32px; 
+    height: 32px;
+    margin-right: 10px;
+    filter: none;
+}
+
+.item-card-detail .item-name-detail {
+    font-size: 0.85rem;
+    color: #333;
+    margin: 0;
+    line-height: normal;
+    height: auto;
+}
+
+/* -------------------------------------------------------- */
+/* --- MEDIA QUERIES (Asegurando la Responsividad) --- */
+/* -------------------------------------------------------- */
+
+/* Tabletas (Ancho máximo 992px) */
+@media (max-width: 992px) {
+    .item-category-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+    }
+    .item-category-card {
+        height: 120px; /* Ajuste para tablets */
+    }
+    .item-category-card:hover {
+        height: 300px; 
+    }
+}
+
+/* Teléfonos (Ancho máximo 600px) */
+@media (max-width: 600px) {
+    .dashboard-box {
+        padding: 1rem;
+    }
+    .item-category-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+
+    .item-category-card {
+        height: 100px; /* Aún más pequeña colapsada en móvil */
+    }
+    .item-category-card:hover {
+        height: 250px; /* La expansión se mantiene para touch */
+    }
+    
+    .category-icon {
+        width: 48px;
+        height: 48px;
+    }
+}
+.ttcn{
+color: #333;
+}

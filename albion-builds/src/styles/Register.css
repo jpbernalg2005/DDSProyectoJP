@@ -1,0 +1,164 @@
+
+.albion-register-container {
+  font-family: 'Blanco Semibold', sans-serif; 
+  
+  background: url("../assets/bg-register.png") no-repeat center center/cover;
+  
+  min-height: 100vh;
+  display: flex;
+  justify-content: flex-end; 
+  align-items: center;
+  position: relative;
+  padding: 20px;
+}
+
+/* ------------------------------------------------------------------- */
+/* LOGO GRANDE CENTRADO */
+/* ------------------------------------------------------------------- */
+.register-logo-container {
+  position: absolute; 
+  top: 50%; 
+  left: 30%; 
+  transform: translate(-50%, -50%); 
+  z-index: 5; 
+  text-align: center;
+}
+/* Estilo aplicado al <span> para la palabra LOGO */
+.register-logo-container span {
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.8));
+}
+
+
+/* ------------------------------------------------------------------- */
+/* FORMULARIO DE REGISTRO (Movido a la Derecha) */
+/* ------------------------------------------------------------------- */
+.albion-register-box {
+  background: white;
+  padding: 2rem;
+  width: 100%;
+  max-width: 380px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  z-index: 10;
+  margin-left: auto; 
+  margin-right: 5%; 
+}
+
+.albion-register-box h2 {
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  color: #111;
+}
+
+/* Estilo para las etiquetas de texto */
+.input-label {
+    display: block;
+    text-align: left;
+    font-size: 0.8rem;
+    color: #666;
+    margin-bottom: 0.2rem;
+    font-weight: 600;
+}
+
+/* Estilo para las cajas de input (.albion-input) */
+.albion-register-box .albion-input {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1.5rem; 
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+/* ------------------------------------------------------------------- */
+/* BOTONES SOCIALES (divididos en dos filas) */
+/* ------------------------------------------------------------------- */
+
+.social-login-group {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.social-btn {
+  width: 100%; 
+  height: 30px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+  background-size: 15% auto; 
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Definición de colores y logos */
+.facebook { background-color: #1877f2; background-image: url('https://cdn-icons-png.flaticon.com/512/5968/5968764.png'); }
+.google { background-color: white; background-image: url('https://cdn-icons-png.flaticon.com/512/300/300221.png'); border: 1px solid #ccc; }
+.apple { background-color: black; background-image: url('https://cdn-icons-png.flaticon.com/512/179/179309.png'); }
+.xbox { background-color: #107c10; background-image: url('https://cdn-icons-png.flaticon.com/512/732/732210.png'); }
+.ps { background-color: #003791; background-image: url('https://cdn-icons-png.flaticon.com/512/732/732221.png'); }
+
+
+/* Botón de Submit (sin margen del checkbox) */
+.submit-btn {
+  width: 60px;
+  height: 60px;
+  background: #f3f3f3;
+  border-radius: 50%;
+  border: none;
+  /* El margen ahora está más cerca de los botones sociales */
+  margin: 1.5rem auto 1rem; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.5rem;
+  transition: 0.2s ease;
+}
+
+.submit-btn:hover {
+  background: #e0e0e0;
+  transform: translateY(-2px);
+}
+
+/* Texto inferior */
+.bottom-text {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 1rem;
+}
+
+.bottom-text a {
+  text-decoration: none;
+  color: #000;
+  font-weight: 600;
+}
+
+.bottom-text a:hover {
+  text-decoration: underline;
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) { 
+    .albion-register-box {
+        margin: 0 auto; 
+        max-width: 90%;
+    }
+    .register-logo-container {
+        display: none; 
+    }
+    .albion-register-container {
+        justify-content: center;
+    }
+}
+@media (max-width: 600px) {
+  .albion-register-box {
+    padding: 1.5rem;
+  }
+}

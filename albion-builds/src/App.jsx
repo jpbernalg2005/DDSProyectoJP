@@ -1,47 +1,82 @@
-import { useState } from "react";
-import ItemSelector from "./components/ItemSelector";
-import BuildPreview from "./components/BuildPreview";
-import SavedBuilds from "./components/SavedBuilds";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useState, useEffect } from "react"; 
+import Login from "./pages/Login.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
+import Register from "./pages/Register.jsx";
+
+// Función para obtener los usuarios iniciales de localStorage o usar el default
+const getInitialUsers = () => {
+  const savedUsers = localStorage.getItem("users");
+  return savedUsers
+    ? JSON.parse(savedUsers)
+    : [{ username: "admin", password: "1234" }]; // Usuario por defecto
+};
+
+// Función para obtener el estado de login inicial de localStorage
+const getInitialLoginState = () => {
+  return localStorage.getItem("isLoggedIn") === "true";
+};
+
 
 function App() {
-  const [build, setBuild] = useState({
-    arma: "",
-    armadura: "",
-    comida: "",
-    pocion: ""
-  });
+  const [isLoggedIn, setIsLoggedIn] = useState(getInitialLoginState); // Inicializa desde LocalStorage
+  const [users, setUsers] = useState(getInitialUsers); //Inicializa desde LocalStorage
 
-  const handleSelect = (type, value) => {
-    setBuild(prev => ({ ...prev, [type]: value }));
-  };
+  // EFECTO para persistir el estado de isLoggedIn 
+  useEffect(() => {
+    localStorage.setItem("isLoggedIn", isLoggedIn);
+  }, [isLoggedIn]);
 
-  const handleSave = () => {
-    const builds = JSON.parse(localStorage.getItem("builds")) || [];
-    builds.push(build);
-    localStorage.setItem("builds", JSON.stringify(builds));
-    alert("✅ Build guardada");
+  // EFECTO para persistir la lista de usuarios 
+  useEffect(() => {
+    localStorage.setItem("users", JSON.stringify(users));
+  }, [users]);
+
+
+  const registerUser = (newUserData) => {
+    setUsers((prevUsers) => [...prevUsers, newUserData]);
   };
 
   return (
-    <div style={{ textAlign: "center", padding: "2rem" }}>
-      <h1>Albion Build Tracker</h1>
-      <p>Selecciona tus ítems y guarda tu build</p>
-
-      <div style={{ display: "flex", justifyContent: "center", gap: "1rem", flexWrap: "wrap" }}>
-        <ItemSelector tipo="arma" onSelect={handleSelect} />
-        <ItemSelector tipo="armadura" onSelect={handleSelect} />
-        <ItemSelector tipo="comida" onSelect={handleSelect} />
-        <ItemSelector tipo="pocion" onSelect={handleSelect} />
-      </div>
-
-      <button onClick={handleSave} style={{ marginTop: "2rem" }}>
-        Guardar Build
-      </button>
-
-      <BuildPreview build={build} />
-
-      <SavedBuilds />
-    </div>
+    <Routes>
+      {/* 1. Ruta de Inicio (Login/Home) */}
+      <Route
+        path="/"
+        element={
+          isLoggedIn ? (
+            <Navigate to="/dashboard" />
+          ) : (
+            // Pasamos la lista de usuarios para la validación
+            <Login setIsLoggedIn={setIsLoggedIn} users={users} />
+          )
+        }
+      />
+      
+      {/* 2. Ruta de Registro */}
+      <Route
+        path="/register"
+        element={
+          isLoggedIn ? (
+            <Navigate to="/dashboard" />
+          ) : (
+            // Pasamos la función y la lista para evitar duplicados
+            <Register registerUser={registerUser} users={users} />
+          )
+        }
+      />
+      
+      {/* 3. Ruta de Dashboard (Protegida) */}
+      <Route
+        path="/dashboard"
+        element={
+          isLoggedIn ? (
+            <Dashboard setIsLoggedIn={setIsLoggedIn} />
+          ) : (
+            <Navigate to="/" />
+          )
+        }
+      />
+    </Routes>
   );
 }
 
