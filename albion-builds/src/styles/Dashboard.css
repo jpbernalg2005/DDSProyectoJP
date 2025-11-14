@@ -1,184 +1,674 @@
-/* --- ESTILOS BASE DEL DASHBOARD --- */
+/* --- ESTILOS BASE DEL DASHBOARD (CONTENIDO PRINCIPAL) --- */
+.full-app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #1e1e1e; /* Fondo oscuro global para la atmósfera Albion */
+    color: #f0f0f0;
+}
+
 .dashboard-container {
+    flex-grow: 1;
     display: flex;
     justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #f4f4f4;
-    padding: 20px;
+    align-items: flex-start; /* Alineación superior */
+    padding: 30px 20px;
+    padding-top: 100px; /* Espacio para la barra de navegación fija */
 }
 
 .dashboard-box {
-    background: white;
+    background: #2a2a2a;
+    color: #f0f0f0;
     padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
     text-align: center;
-    width: 90%;
-    max-width: 1200px;
-    max-height: 90vh; 
-    overflow-y: auto; 
+    width: 95%;
+    max-width: 1400px;
 }
 
-/* ... (Otros estilos como h1, hr, button se mantienen) ... */
+.dashboard-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #ffcc66; /* Dorado/Amarillo para títulos */
+    margin-bottom: 0.5rem;
+}
+
+.dashboard-subtitle {
+    font-size: 1rem;
+    color: #aaa;
+    margin-bottom: 1.5rem;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #444;
+    margin: 2rem 0;
+}
+
 
 /* -------------------------------------------------------- */
-/* --- CUADRÍCULA Y LÓGICA DE HOVER (Scroll Vertical) --- */
+/* --- ESTILOS DE LA BARRA DE NAVEGACIÓN (NAVBAR) --- */
+/* -------------------------------------------------------- */
+
+.navbar {
+    position: fixed; /* Barra fija en la parte superior */
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #141414; /* Fondo muy oscuro */
+    border-bottom: 2px solid #333;
+    padding: 10px 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    font-family: 'Inter', sans-serif;
+}
+.navbar-logo {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    text-decoration: none;
+    color: #ffcc66;
+    font-size: 1.5rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.logo-icon {
+    margin-right: 10px;
+}
+
+/* --- NUEVO ESTILO PARA EL LOGO DE IMAGEN --- */
+.logo-image {
+    width: 70px; /* Establece el ancho para coincidir con el icono de Lucide */
+    height: auto; /* Establece el alto para coincidir con el icono de Lucide */
+    object-fit: contain; /* Asegura que la imagen se ajuste sin cortarse */
+}
+/* --------------------------------------------- */
+
+.navbar-links {
+    display: flex;
+    gap: 25px;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #ccc;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.nav-link:hover {
+    color: #fff;
+    background-color: #333;
+}
+
+.nav-link-active {
+    color: #ffcc66;
+    border-bottom: 2px solid #ffcc66;
+    font-weight: 600;
+}
+
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.search-bar {
+    display: flex;
+    background: #333;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #444;
+}
+
+.search-input {
+    background: transparent;
+    border: none;
+    padding: 8px 15px;
+    color: #fff;
+    outline: none;
+    width: 200px;
+}
+
+.search-input::placeholder {
+    color: #888;
+}
+
+.search-button {
+    background: #444;
+    border: none;
+    color: #ccc;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.search-button:hover {
+    background: #555;
+    color: #ffcc66;
+}
+
+.login-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #6a1b9a; /* Color temático de magia/poder */
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.login-button:hover {
+    background: #7b1fa2;
+    transform: translateY(-1px);
+}
+
+.logout-button {
+    background: #d32f2f; /* Rojo para cerrar sesión */
+}
+.logout-button:hover {
+    background: #e53935;
+}
+
+
+/* -------------------------------------------------------- */
+/* --- ESTILOS DEL EXPLORADOR DE ÍTEMS (ITEM EXPLORER) --- */
 /* -------------------------------------------------------- */
 
 .item-category-grid {
     display: grid;
-    grid-template-columns: repeat(6, 1fr); 
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Adaptativo */
     gap: 20px;
     margin-top: 2rem;
 }
 
 .item-category-card {
     position: relative; 
-    border: 1px solid #ddd;
+    border: 1px solid #444;
     border-radius: 8px;
-    background: #fff;
+    background: #3a3a3a;
     transition: all 0.3s ease; 
     cursor: default;
     
-    /* Altura inicial de la tarjeta colapsada - SÓLO la portada */
     height: 150px; 
     
-    /* Alineamos el contenido al centro para la portada */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     
     padding: 10px;
+    overflow: hidden; 
 }
 
-/* --- EFECTO HOVER: Expandir la tarjeta y habilitar scroll vertical --- */
 .item-category-card:hover {
-    height: 400px; /* <--- Altura Máxima Expandida (ajusta este valor) */
-    overflow-y: auto; /* <--- Habilita el scroll vertical al hacer hover */
-    background: #fafafa;
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-    
-    /* Cambiamos la alineación para que la portada no quede centrada verticalmente en el contenedor expandido */
+    height: 400px; 
+    overflow-y: auto; 
+    background: #4a4a4a;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7);
+    border-color: #ffcc66;
     justify-content: flex-start; 
 }
 
+/* Estilo para la barra de desplazamiento en la tarjeta expandida (Webkit) */
+.item-category-card:hover::-webkit-scrollbar {
+    width: 8px;
+}
+.item-category-card:hover::-webkit-scrollbar-thumb {
+    background: #ffcc66;
+    border-radius: 4px;
+}
+.item-category-card:hover::-webkit-scrollbar-track {
+    background: #3a3a3a;
+}
+
 .category-cover {
-    /* Aseguramos que la portada siempre esté visible */
-    z-index: 1; /* Para que quede por encima del contenido oculto si hay solapamiento */
-    /* Otros estilos de portada si los necesitas, como margen-bottom */
-    margin-bottom: 10px; /* Añade un pequeño espacio entre la portada y el scroll container al expandir */
+    z-index: 1; 
+    margin-bottom: 10px; 
+    padding-top: 10px;
 }
 
 .category-icon {
     width: 64px;
     height: 64px;
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
 }
 
 .category-name {
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: bold;
     margin-top: 5px;
-    color: #333;
+    color: #ffcc66;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
 }
 
-/* -------------------------------------------------------- */
-/* --- CAMBIOS CLAVE AQUÍ: Ocultar/Mostrar el Scroll Container --- */
-/* -------------------------------------------------------- */
+/* --- Mostrar/Ocultar el Scroll Container --- */
 .category-scroll-container {
-    /* OCULTAR POR DEFECTO */
     display: none; 
+    width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
     
-
-    padding: 0;
-    margin: 0;
-    background: transparent;
-    box-shadow: none;
-    opacity: 0; /* Lo ocultamos completamente */
-    visibility: hidden; /* También lo hacemos invisible */
-    transform: translateY(20px); /* Un pequeño efecto de entrada/salida */
-    transition: opacity 0.3s ease, transform 0.3s ease; /* Suavizamos la transición */
+    opacity: 0; 
+    visibility: hidden; 
+    transform: translateY(20px); 
+    transition: opacity 0.3s ease, transform 0.3s ease; 
+    flex-grow: 1; 
 }
 
 .item-category-card:hover .category-scroll-container {
-    /* MOSTRAR AL HACER HOVER */
-    display: block; /* <--- Se vuelve visible y ocupa espacio */
-    
-    opacity: 1; /* Lo hacemos visible */
-    visibility: visible; /* Aseguramos que sea visible */
-    transform: translateY(0); /* Lo movemos a su posición final */
-    
-    /* Aseguramos que el contenido scrollable use todo el espacio restante */
-    flex-grow: 1; 
-    width: 100%;
+    display: block; 
+    opacity: 1; 
+    visibility: visible; 
+    transform: translateY(0); 
 }
 
 
-/* Estilos de los ítems individuales dentro del scroll (se mantienen) */
+/* Estilos de los ítems individuales dentro del scroll */
 .item-card-detail {
     display: flex; 
     align-items: center;
     text-align: left;
-    padding: 5px 0;
-    border-top: 1px solid #eee;
+    padding: 8px 0;
+    border-top: 1px solid #555;
+}
+
+.item-card-detail:first-child {
+    border-top: none; 
 }
 
 .item-card-detail .item-icon {
-    width: 32px; 
-    height: 32px;
+    width: 40px; 
+    height: 40px;
     margin-right: 10px;
-    filter: none;
+    background: #2a2a2a;
+    border-radius: 4px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
 .item-card-detail .item-name-detail {
     font-size: 0.85rem;
-    color: #333;
+    color: #f0f0f0;
     margin: 0;
-    line-height: normal;
-    height: auto;
+    line-height: 1.2;
 }
+
+/* -------------------------------------------------------- */
+/* --- ESTILOS DEL CREADOR DE BUILDS (BUILD CREATOR) --- */
+/* -------------------------------------------------------- */
+
+.build-creator-container {
+    text-align: left; /* Alineamos el contenido dentro del contenedor principal */
+}
+
+.creation-layout {
+    display: flex;
+    gap: 30px;
+    margin-top: 2rem;
+}
+
+.layout-col {
+    padding: 15px;
+    border-radius: 8px;
+    /* background: #3a3a3a; /* Fondo más claro para distinguir secciones */
+}
+
+.build-preview-area {
+    flex: 2;
+    min-width: 400px;
+}
+
+.build-details-area {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: #333; /* Fondo para la columna de detalles */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* --- Display de Personaje y Slots --- */
+
+.character-display {
+    position: relative;
+    width: 100%;
+    /* Mantiene una relación de aspecto cuadrada */
+    padding-top: 100%; 
+    background: #1e1e1e; 
+    border-radius: 8px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
+    margin-bottom: 20px;
+}
+
+.placeholder-character {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+}
+
+.equipment-slot-wrapper {
+    position: absolute;
+    width: 80px; /* Tamaño del slot */
+    height: 80px;
+    transform: translate(-50%, -50%); /* Centrado respecto a las coordenadas */
+    cursor: pointer;
+    z-index: 10;
+    transition: transform 0.2s;
+}
+
+.equipment-slot-wrapper:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+.empty-slot {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.empty-slot svg {
+    width: 60px;
+    height: 60px;
+    display: block;
+}
+
+.empty-slot .slot-name {
+    position: absolute;
+    font-size: 0.7rem;
+    color: #888;
+    bottom: -5px;
+    text-align: center;
+    width: 100%;
+}
+
+/* --- Panel de Estadísticas --- */
+
+.stats-panel {
+    background: #333;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.panel-title {
+    color: #ffcc66;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #444;
+    padding-bottom: 5px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #2a2a2a;
+    padding: 8px 10px;
+    border-radius: 4px;
+    border-left: 3px solid #6a1b9a;
+}
+
+.stat-icon-wrapper {
+    color: #ffcc66;
+}
+
+.stat-label {
+    flex-grow: 1;
+    margin: 0;
+    font-size: 0.85rem;
+    color: #aaa;
+}
+
+.stat-value {
+    margin: 0;
+    font-weight: bold;
+    color: #fff;
+    font-size: 1rem;
+}
+
+/* --- Inputs y Detalles --- */
+
+.build-input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #ffcc66;
+    font-size: 0.9rem;
+}
+
+.build-input-group input,
+.build-input-group textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #555;
+    background: #444;
+    color: #f0f0f0;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.build-input-group textarea {
+    resize: vertical;
+}
+
+/* --- Panel de Actividad --- */
+
+.activity-type-panel {
+    padding: 15px 0;
+    border-top: 1px solid #444;
+    border-bottom: 1px solid #444;
+}
+
+.activity-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.activity-label {
+    display: block;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.activity-label input[type="radio"] {
+    display: none;
+}
+
+.activity-label .radio-content {
+    display: block;
+    padding: 8px;
+    background: #444;
+    border-radius: 4px;
+    border: 2px solid #444;
+    transition: all 0.2s;
+    text-align: center;
+    color: #ccc;
+    font-weight: 500;
+}
+
+.activity-label input[type="radio"]:checked + .radio-content {
+    background: #6a1b9a;
+    border-color: #ffcc66;
+    color: #fff;
+    box-shadow: 0 0 5px #6a1b9a;
+}
+
+/* --- Botones de Acción --- */
+
+.action-buttons-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: auto; /* Empuja los botones hacia abajo */
+    padding-top: 20px;
+}
+
+.action-buttons-group button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 6px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background: #ffcc66;
+    color: #141414;
+    border: none;
+}
+
+.btn-primary:hover {
+    background: #ffdb8f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(255, 204, 102, 0.5);
+}
+
+.btn-secondary {
+    background: #444;
+    color: #ffcc66;
+    border: 1px solid #ffcc66;
+}
+
+.btn-secondary:hover {
+    background: #555;
+    color: #fff;
+}
+
+.btn-tertiary {
+    background: #141414;
+    color: #d32f2f;
+    border: 1px solid #d32f2f;
+}
+
+.btn-tertiary:hover {
+    background: #2a2a2a;
+    color: #e53935;
+}
+
 
 /* -------------------------------------------------------- */
 /* --- MEDIA QUERIES (Asegurando la Responsividad) --- */
 /* -------------------------------------------------------- */
 
-/* Tabletas (Ancho máximo 992px) */
 @media (max-width: 992px) {
-    .item-category-grid {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 15px;
+    .creation-layout {
+        flex-direction: column;
     }
-    .item-category-card {
-        height: 120px; /* Ajuste para tablets */
+
+    .build-preview-area {
+        min-width: unset;
+        width: 100%;
+        order: 2; /* Mueve el preview debajo de los detalles para móvil/tablet */
     }
-    .item-category-card:hover {
-        height: 300px; 
+
+    .build-details-area {
+        min-width: unset;
+        width: 100%;
+        order: 1;
+    }
+
+    .equipment-slot-wrapper {
+        width: 60px; 
+        height: 60px;
+    }
+    
+    .empty-slot svg {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 columnas en tablet */
+    }
+
+    .navbar {
+        flex-wrap: wrap;
+        padding: 10px 20px;
+        justify-content: center;
+        gap: 10px;
+    }
+    .navbar-logo, .navbar-links, .navbar-actions {
+        width: 100%;
+        justify-content: center;
+    }
+    .navbar-links {
+        order: 2; 
+    }
+    .navbar-actions {
+        order: 3; 
+    }
+    .search-input {
+        width: 150px;
+    }
+
+    .dashboard-container {
+        padding-top: 180px;
     }
 }
 
-/* Teléfonos (Ancho máximo 600px) */
 @media (max-width: 600px) {
     .dashboard-box {
         padding: 1rem;
     }
-    .item-category-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas en móvil */
     }
 
-    .item-category-card {
-        height: 100px; /* Aún más pequeña colapsada en móvil */
-    }
-    .item-category-card:hover {
-        height: 250px; /* La expansión se mantiene para touch */
+    .activity-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
     
-    .category-icon {
-        width: 48px;
-        height: 48px;
+    .equipment-slot-wrapper {
+        width: 50px; 
+        height: 50px;
     }
-}
-.ttcn{
-color: #333;
+    
+    .empty-slot svg {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .navbar-logo {
+        font-size: 1.2rem;
+    }
+    .nav-link {
+        padding: 5px 8px;
+        font-size: 0.8rem;
+    }
+    .dashboard-container {
+        padding-top: 220px;
+    }
 }
