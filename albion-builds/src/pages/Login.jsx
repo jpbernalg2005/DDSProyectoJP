@@ -31,7 +31,6 @@ export default function Login({ setIsLoggedIn, users }) {
                 <img 
                     src={LogoImage} 
                     alt="Albion Builder Logo" 
-                    style={{ height: '50px' }} 
                 />
             </div>
         
