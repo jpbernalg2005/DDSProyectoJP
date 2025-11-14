@@ -1,7 +1,7 @@
 // src/pages/Register.jsx
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "../Register.css"; 
+import "../styles/Register.css"; 
 import LogoImage from '../assets/Logo.png';
 
 export default function Register({ registerUser, users }) {

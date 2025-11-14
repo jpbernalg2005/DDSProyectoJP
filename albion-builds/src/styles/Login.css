@@ -2,7 +2,7 @@
   font-family: sans-serif;
   
 
-  background: url("./assets/bg-login.png") no-repeat center center/cover;
+  background: url("../assets/bg-login.png") no-repeat center center/cover;
   
   min-height: 100vh;
   display: flex;

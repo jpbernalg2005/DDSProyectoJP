@@ -1,6 +1,6 @@
 // src/pages/Dashboard.jsx
 import { useState, useEffect, useRef } from "react"; 
-import "../Dashboard.css"; 
+import "../styles/Dashboard.css"; 
 
 
 const IMG_BASE_URL = "https://render.albiononline.com/api/v1/item/";

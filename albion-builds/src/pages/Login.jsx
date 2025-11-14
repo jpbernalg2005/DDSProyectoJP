@@ -1,7 +1,7 @@
 // pages/Login.jsx
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import "../Login.css";
+import "../styles/Login.css";
 import LogoImage from '../assets/Logo.png';
 
 export default function Login({ setIsLoggedIn, users }) {
