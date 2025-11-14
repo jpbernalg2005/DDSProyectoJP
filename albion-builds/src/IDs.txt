@@ -1,3 +1,4 @@
+Despues en el codigo los traduzco a su nombre del juego ****
 T8_MAIN_CURSEDSTAFF 
 T8_2H_CURSEDSTAFF 
 T8_2H_DEMONICSTAFF 
