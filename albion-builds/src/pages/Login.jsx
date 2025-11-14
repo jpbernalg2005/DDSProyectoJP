@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "../Login.css";
+import LogoImage from '../assets/Logo.png';
 
 export default function Login({ setIsLoggedIn, users }) {
   const [form, setForm] = useState({ username: "", password: "" });
@@ -24,15 +25,15 @@ export default function Login({ setIsLoggedIn, users }) {
   };
 
   return (
-        <div className="albion-login-container azul">
-        {/* Contenedor del logo: Ahora insertamos la imagen */}
-        <div className="logo-container">
-            <img 
-                src="https://cdn-icons-png.flaticon.com/512/179/179399.png" 
-                alt="Albion Builder Logo" 
-                style={{ height: '50px' }} 
-            />
-        </div>
+<div className="albion-login-container azul">
+
+            <div className="logo-container">
+                <img 
+                    src={LogoImage} 
+                    alt="Albion Builder Logo" 
+                    style={{ height: '50px' }} 
+                />
+            </div>
         
       <div className="albion-login-box">
         <h2>Iniciar sesión</h2>

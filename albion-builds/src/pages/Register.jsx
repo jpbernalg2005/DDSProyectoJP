@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../Register.css"; 
-
+import LogoImage from '../assets/Logo.png';
 
 export default function Register({ registerUser, users }) {
   const [form, setForm] = useState({ username: "", password: "" });
@@ -34,16 +34,15 @@ export default function Register({ registerUser, users }) {
   };
 
   return (
-    <div className="albion-register-container"> 
-      
-      {/* Contenedor del logo grande y centrado: Ahora insertamos la imagen */}
-      <div className="register-logo-container">
-        <img 
-            src="https://cdn-icons-png.flaticon.com/512/179/179399.png" 
-            alt="Albion Builder Logo" 
-            style={{ maxWidth: '500px', height: 'auto' }} 
-        />
-      </div>
+      <div className="albion-register-container"> 
+    
+             <div className="register-logo-container">
+                 <img 
+                     src={LogoImage} 
+                     alt="Albion Builder Logo" 
+                     style={{ maxWidth: '500px', height: 'auto' }} 
+                 />
+             </div>
       
       {/* Caja del formulario de registro, anclada a la derecha por CSS */}
       <div className="albion-register-box"> 

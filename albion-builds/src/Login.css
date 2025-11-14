@@ -1,5 +1,3 @@
-/* NOTA IMPORTANTE: Si 'Blanco Semibold' no es una fuente del sistema, debes importarla 
-   aquí usando @import, @font-face o un <link> en tu HTML para que funcione. */
 .albion-login-container {
   font-family: sans-serif;
   
@@ -19,6 +17,10 @@
   left: 20px; 
   z-index: 10; 
   padding: 10px;
+}
+.logo-container img {
+  width: 150px; /* <--- Aumenta el ancho */
+  height: auto; /* Mantiene la proporción */
 }
 
 .albion-login-box {
