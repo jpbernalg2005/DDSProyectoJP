@@ -1,8 +1,9 @@
 .albion-login-container {
   font-family: sans-serif;
   
-  /* Imagen de fondo: asegura que cubre sin distorsión */
-  background: url("https://wallpapers.com/images/hd/1080p-hd-astronaut-relaxing-on-moon-r747x004y6k4evcd.jpg") no-repeat center center/cover;
+
+  background: url("./assets/bg-login.png") no-repeat center center/cover;
+  
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -19,8 +20,8 @@
   padding: 10px;
 }
 .logo-container img {
-  width: 150px; /* <--- Aumenta el ancho */
-  height: auto; /* Mantiene la proporción */
+  width: 150px;
+  height: auto; 
 }
 
 .albion-login-box {
@@ -45,7 +46,7 @@
   width: 100%;
   padding: 0.8rem;
   /* AUMENTAMOS el margen inferior después de cada caja de input */
-  margin-bottom: 1.5rem; /* Antes 1rem. Puedes probar 2rem si quieres más */
+  margin-bottom: 1.5rem; 
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 0.9rem;
@@ -57,7 +58,7 @@
   grid-template-columns: repeat(2, 1fr); 
   gap: 10px; 
   /* AUMENTAMOS el margen superior antes de los botones sociales */
-  margin: 1.5rem 0; /* Antes 1rem. Controla el espacio arriba y abajo */
+  margin: 1.5rem 0; 
 }
 
 

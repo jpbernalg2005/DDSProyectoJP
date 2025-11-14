@@ -42,9 +42,9 @@
     cursor: default;
     
     /* Altura inicial de la tarjeta colapsada - SÓLO la portada */
-    height: 150px; /* <--- Ajusta esta altura si tu portada es diferente */
+    height: 150px; 
     
-    /* 💡 Alineamos el contenido al centro para la portada */
+    /* Alineamos el contenido al centro para la portada */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -60,7 +60,7 @@
     background: #fafafa;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
     
-    /* 💡 Cambiamos la alineación para que la portada no quede centrada verticalmente en el contenedor expandido */
+    /* Cambiamos la alineación para que la portada no quede centrada verticalmente en el contenedor expandido */
     justify-content: flex-start; 
 }
 
@@ -87,11 +87,10 @@
 /* --- CAMBIOS CLAVE AQUÍ: Ocultar/Mostrar el Scroll Container --- */
 /* -------------------------------------------------------- */
 .category-scroll-container {
-    /* 💡 OCULTAR POR DEFECTO */
-    display: none; /* <--- Esto ocultará el contenedor completamente */
+    /* OCULTAR POR DEFECTO */
+    display: none; 
     
-    /* Los estilos de posición y opacidad que tenías antes ya no son necesarios
-       porque 'display: none' se encarga de todo. */
+
     padding: 0;
     margin: 0;
     background: transparent;
@@ -103,7 +102,7 @@
 }
 
 .item-category-card:hover .category-scroll-container {
-    /* 💡 MOSTRAR AL HACER HOVER */
+    /* MOSTRAR AL HACER HOVER */
     display: block; /* <--- Se vuelve visible y ocupa espacio */
     
     opacity: 1; /* Lo hacemos visible */

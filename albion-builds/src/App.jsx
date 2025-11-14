@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import { useState, useEffect } from "react"; // 👈 Importamos useEffect
+import { useState, useEffect } from "react"; 
 import Login from "./pages/Login.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import Register from "./pages/Register.jsx";
@@ -19,15 +19,15 @@ const getInitialLoginState = () => {
 
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(getInitialLoginState); // 👈 Inicializa desde LocalStorage
-  const [users, setUsers] = useState(getInitialUsers); // 👈 Inicializa desde LocalStorage
+  const [isLoggedIn, setIsLoggedIn] = useState(getInitialLoginState); // Inicializa desde LocalStorage
+  const [users, setUsers] = useState(getInitialUsers); //Inicializa desde LocalStorage
 
-  // 🚨 EFECTO para persistir el estado de isLoggedIn 🚨
+  // EFECTO para persistir el estado de isLoggedIn 
   useEffect(() => {
     localStorage.setItem("isLoggedIn", isLoggedIn);
   }, [isLoggedIn]);
 
-  // 🚨 EFECTO para persistir la lista de usuarios 🚨
+  // EFECTO para persistir la lista de usuarios 
   useEffect(() => {
     localStorage.setItem("users", JSON.stringify(users));
   }, [users]);

@@ -1,7 +1,9 @@
-/* NOTA: Asume que 'Blanco Semibold' está importada globalmente o vía @font-face */
+
 .albion-register-container {
   font-family: 'Blanco Semibold', sans-serif; 
-  background: url("https://img.pikbest.com/illustration/20240726/high-quality-natural-image-wallpaperfull-hd_10682203.jpg!bw700") no-repeat center center/cover;
+  
+  background: url("./assets/bg-register.png") no-repeat center center/cover;
+  
   min-height: 100vh;
   display: flex;
   justify-content: flex-end; 
