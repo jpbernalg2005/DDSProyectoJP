@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getBuilds } from '../utils/storage'; 
-import { BuildCard } from './BuildCard.jsx'; 
+import { BuildCard } from './Buildcard.jsx'; 
 
 export const CommunityBuilds = () => {
     const [communityBuilds, setCommunityBuilds] = useState([]);

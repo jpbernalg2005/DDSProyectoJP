@@ -3,7 +3,7 @@ import { User } from 'lucide-react';
 // Importamos las funciones getBuilds y deleteBuild, AÑADIMOS la extensión .js
 import { getBuilds, deleteBuild } from '../utils/storage.js'; 
 // Importamos BuildCard, AÑADIMOS la extensión .jsx
-import { BuildCard } from './BuildCard.jsx'; 
+import { BuildCard } from './Buildcard.jsx'; 
 
 export const MyBuilds = () => {
     const [builds, setBuilds] = useState([]);
