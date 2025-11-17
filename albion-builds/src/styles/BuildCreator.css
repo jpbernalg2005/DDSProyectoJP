@@ -1,0 +1,319 @@
+/* BuildCreator.css */
+
+/* --- Estilos Generales del Contenedor --- */
+.build-creator-container {
+    padding: 20px;
+    background-color: #1e1e1e;
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    min-width: 900px; /* Ajustar según necesites */
+    margin: 20px auto;
+}
+
+.dashboard-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #e5c07b;
+    margin-bottom: 5px;
+}
+
+.dashboard-subtitle {
+    font-size: 1rem;
+    color: #aaa;
+    margin-bottom: 20px;
+}
+
+.creation-layout {
+    display: flex;
+    gap: 30px;
+}
+
+.layout-col {
+    padding: 15px;
+    border: 1px solid #333;
+    border-radius: 6px;
+}
+
+.build-preview-area {
+    flex: 1;
+    background-color: #2a2a2a;
+    min-height: 550px;
+}
+
+.build-details-area {
+    flex: 1;
+    background-color: #2a2a2a;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+
+/* --- 1. Contenedor principal (REQUIRED para slots absolutos) --- */
+.character-display {
+    position: relative; 
+    width: 100%;
+    min-height: 550px; 
+    margin: 0 auto;
+}
+
+/* --- 2. Slot Wrapper --- */
+.equipment-slot-wrapper {
+    position: absolute; 
+    transform: translate(-50%, -50%); 
+    z-index: 10; 
+    /* Estilos de layout por defecto para que funcione si el slot.style no carga */
+}
+
+.equipment-slot-wrapper:hover {
+    filter: brightness(1.2);
+}
+
+/* --- 3. Slot Estilos --- */
+.equipment-slot {
+    width: 75px;
+    height: 75px;
+    border: 2px solid #3d3d3d;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #1f1f1f;
+    cursor: pointer;
+    transition: border-color 0.2s, filter 0.1s;
+    position: relative;
+}
+
+.equipment-slot-filled {
+    border-color: #e5c07b;
+    background-color: #333;
+}
+.equipment-slot-filled img {
+    width: 90%;
+    height: 90%;
+}
+
+.slot-name {
+    position: absolute;
+    top: -15px;
+    font-size: 0.7rem;
+    color: #aaa;
+    white-space: nowrap;
+}
+
+/* --- Estilos de Inputs y Botones (Build Details Area) --- */
+
+.build-input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #ddd;
+}
+
+.build-input-group input, 
+.build-input-group textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #444;
+    background-color: #333;
+    color: white;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.activity-type-panel {
+    border: 1px solid #444;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+.panel-title {
+    font-size: 1.1rem;
+    color: #e5c07b;
+    margin-bottom: 10px;
+}
+
+.activity-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.activity-label {
+    display: block;
+    cursor: pointer;
+    user-select: none;
+}
+
+.activity-label input[type="radio"] {
+    display: none;
+}
+
+.radio-content {
+    display: block;
+    padding: 8px;
+    background-color: #333;
+    border: 1px solid #555;
+    border-radius: 4px;
+    text-align: center;
+    transition: background-color 0.1s, border-color 0.1s;
+}
+
+.activity-label input[type="radio"]:checked + .radio-content {
+    background-color: #61afef;
+    color: #111;
+    border-color: #61afef;
+    font-weight: bold;
+}
+
+.action-buttons-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: auto; /* Empuja los botones hacia abajo */
+}
+
+.btn-primary, .btn-secondary, .btn-tertiary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.1s;
+    gap: 10px;
+}
+
+.btn-primary {
+    background-color: #e5c07b; /* Amarillo/Dorado */
+    color: #111;
+}
+.btn-primary:hover {
+    background-color: #f0d090;
+}
+
+.btn-secondary {
+    background-color: #61afef; /* Azul */
+    color: white;
+}
+.btn-secondary:hover {
+    background-color: #79c0ff;
+}
+
+.btn-tertiary {
+    background-color: #444;
+    color: #ccc;
+}
+.btn-tertiary:hover {
+    background-color: #555;
+}
+
+
+/* --- Estilos del Selector Modal (ItemSelector) --- */
+.item-selector-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.item-selector-modal {
+    background-color: #222;
+    border: 2px solid #555;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    color: white;
+}
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #444;
+}
+.close-button {
+    background: none;
+    border: none;
+    color: #aaa;
+    cursor: pointer;
+}
+.category-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px 20px;
+    border-bottom: 1px solid #333;
+}
+.tab-button {
+    background-color: #333;
+    color: #ccc;
+    border: 1px solid #555;
+    padding: 8px 15px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.1s;
+}
+.tab-button:hover { background-color: #444; }
+.tab-active { 
+    background-color: #61afef; 
+    color: #111;
+    border-color: #61afef;
+    font-weight: bold;
+}
+.item-list-container {
+    padding: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    overflow-y: auto;
+}
+.item-selection-card {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #333;
+    border: 1px solid #555;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.1s, border-color 0.1s;
+    position: relative;
+    overflow: hidden;
+}
+.item-selection-card:hover { 
+    transform: scale(1.05);
+    border-color: #e5c07b;
+}
+.item-selection-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.item-selection-card p {
+    position: absolute;
+    bottom: 0;
+    font-size: 0.6rem;
+    background: rgba(0, 0, 0, 0.7);
+    width: 100%;
+    text-align: center;
+    padding: 2px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

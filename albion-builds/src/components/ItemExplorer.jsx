@@ -253,9 +253,9 @@ const ITEM_NAME_MAP = {
     "T8_2H_ENIGMATICSTAFF": "Bastón Enigmático",
     "T8_MAIN_ARCANESTAFF_UNDEAD": "Bastón Arcano de No Muerto",
     "T8_2H_ARCANESTAFF_HELL": "Bastón Arcano Infernal",
-    "T8_2H_ENIGMATICORB_MORGANA": "Orbe Enigmático de Morgana",
+    "T8_2H_ENIGMATICORB_MORGANA": "Enigmatico",
     "T8_2H_ARCANE_RINGPAIR_AVALON": "Par de Anillos Arcanos de Avalon",
-    "T8_2H_ARCANESTAFF_CRYSTAL": "Bastón Arcano de Cristal",
+    "T8_2H_ARCANESTAFF_CRYSTAL": "Bastón Astral",
     
     // Bastones Sagrados
     "T8_MAIN_HOLYSTAFF": "Bastón Sagrado",
@@ -477,8 +477,8 @@ export const ItemExplorer = () => {
 
     return (
         <>
-            <h1 className="dashboard-title">Explora los Sets T8 👑</h1>
-            <p className="dashboard-subtitle">Selecciona una categoría de armadura o arma para ver los ítems únicos.</p>
+            <h1 className="dashboard-title">Explora los Items 👑</h1>
+            <p className="dashboard-subtitle">Selecciona una categoría de armadura o arma para ver los ítems .</p>
             <hr/>
             {loading ? (
                 <p>Preparando las categorías de armadura y arma...</p>
