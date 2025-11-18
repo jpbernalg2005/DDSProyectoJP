@@ -1,17 +1,19 @@
 // pages/Dashboard.jsx
 
 import { useState, useEffect } from "react";
+import { logoutUser } from '../utils/auth.js'; // 1. Importar la función de Logout de la utilidad de Auth
 import "../styles/Dashboard.css"; 
 
 // Importar todos los componentes (incluyendo el nuevo LobbyPage)
 import { Navbar } from '../components/Navbar'; 
-import { LobbyPage } from '../components/LobbyPage'; // NUEVO
+import { LobbyPage } from '../components/LobbyPage'; 
 import { BuildCreator } from '../components/BuildCreator';
 import { CommunityBuilds } from '../components/CommunityBuilds';
 import { MyBuilds } from '../components/MyBuilds';
 import { ItemExplorer } from '../components/ItemExplorer';
 
-export default function Dashboard({ setIsLoggedIn }) {
+// Modificado: Ahora recibe el objeto currentUser en lugar de setIsLoggedIn
+export default function Dashboard({ currentUser }) { 
     // 1. Estado para almacenar la ruta actual
     const [currentRoute, setCurrentRoute] = useState(() => {
         // Inicializar con el hash actual, o '/lobby' si no hay hash
@@ -43,21 +45,39 @@ export default function Dashboard({ setIsLoggedIn }) {
         };
     }, []); 
 
-    const handleLogout = () => {
-        setIsLoggedIn(false);
+    // MODIFICACIÓN CLAVE: Función asíncrona para cerrar sesión con Firebase
+    const handleLogout = async () => {
+        try {
+            await logoutUser(); // Llama a la utilidad de Firebase
+            // App.jsx detectará el cambio y redirigirá automáticamente a la ruta "/"
+        } catch (error) {
+            console.error("Error al cerrar sesión:", error);
+            alert("Hubo un error al intentar cerrar sesión.");
+        }
     };
     
     // 3. Renderizar el componente basado en la ruta (hash)
     const renderContent = () => {
+        // Obtenemos el ID de usuario de Firebase, esencial para guardar/cargar builds
+        const userId = currentUser ? currentUser.uid : null;
+        
+        // Manejamos el caso si por alguna razón no hay ID, aunque App.jsx lo protege.
+        if (!userId) {
+            return <p className="text-xl text-red-500 p-6">Error: Sesión de usuario no cargada.</p>;
+        }
+        
         switch (currentRoute) {
-            case '/lobby': // NUEVA RUTA PRINCIPAL
+            case '/lobby': // RUTA PRINCIPAL
                 return <LobbyPage navigate={navigate} />;
             case '/buildcreator':
-                return <BuildCreator />;
+                // Pasamos el ID del usuario al creador
+                return <BuildCreator userId={userId} />; 
             case '/communitybuilds':
+                // Nota: CommunityBuilds necesita ser modificado para cargar todas las builds públicas
                 return <CommunityBuilds />;
             case '/mybuilds':
-                return <MyBuilds />;
+                // Pasamos el ID del usuario para cargar SOLO sus builds
+                return <MyBuilds userId={userId} />; 
             case '/itemexplorer':
                 return <ItemExplorer />;
             default:

@@ -4,13 +4,15 @@ import {
 } from 'lucide-react'; 
 // ¡Importamos el archivo CSS!
 import '../styles/BuildCreator.css'; 
-import { saveNewBuild } from '../utils/storage'; 
+// ✅ CORRECCIÓN: Usamos 'saveBuild' en lugar de 'saveNewBuild'
+import { saveBuild } from '../utils/storage.js'; 
+
 
 // URL base para las imágenes de los ítems
 const IMG_BASE_URL = "https://render.albiononline.com/api/v1/item/";
 
 // --- CONSTANTES DE DATOS DE ÍTEMS ---
-// (Estas listas deben estar completas para que el selector funcione)
+// (Estas listas son necesarias para el ItemSelector)
 
 const T8_ARMOR_PLATE = [
     "T8_ARMOR_PLATE_SET1", "T8_ARMOR_PLATE_SET2", "T8_ARMOR_PLATE_SET3", "T8_ARMOR_PLATE_ROYAL", "T8_ARMOR_PLATE_HELL", "T8_ARMOR_PLATE_KEEPER", "T8_ARMOR_PLATE_AVALON", "T8_ARMOR_PLATE_FEY", "T8_ARMOR_PLATE_UNDEAD",
@@ -105,7 +107,6 @@ const T8_OFF_HAND_SHIELDS = [
 // --- FIN CONSTANTES DE DATOS DE ÍTEMS ---
 
 // --- MAPEO DE SLOTS A CATEGORÍAS ---
-// Define qué categorías de ítems son válidas para cada slot
 const SLOT_CATEGORY_MAP = {
     // Armas (Cualquier cosa que no sea OFF)
     mainhand: [
@@ -126,8 +127,6 @@ const SLOT_CATEGORY_MAP = {
         { name: "Mazas", items: T8_MACES },
         { name: "Hachas", items: T8_AXES },
         { name: "Espadas", items: T8_SWORDS },
-
-        // ... (Aquí irían otras categorías de armas como Espadas, Hachas, etc.)
     ],
     // Off Hand
     offhand: [
@@ -156,7 +155,6 @@ const SLOT_CATEGORY_MAP = {
 };
 
 // --- MAPEO DE NOMBRES DE ÍTEMS (Simplificado para el ejemplo) ---
-// En una aplicación real, esta lista sería mucho más grande, pero es crucial para mostrar el nombre.
 const ITEM_NAME_MAP = {
     "T8_MAIN_CURSEDSTAFF": "Bastón Maldito",
     "T8_2H_CURSEDSTAFF": "Gran Bastón Maldito",
@@ -168,29 +166,20 @@ const ITEM_NAME_MAP = {
     "T8_CAPE": "Capa Común",
     "T8_MEAL_FISH_BOWL": "Estofado de Pescado",
     "T8_POTION_HEAL": "Poción de Curación Mayor",
-    // ... agregar el resto de los nombres reales de los ítems T8 aquí ...
-    // Aquí solo mantenemos los nombres de los ítems usados en el SLOT_CATEGORY_MAP
 };
 
 
 // --- COMPONENTE ItemSelector (Modal) ---
 const ItemSelector = ({ slotKey, onClose, onSelect }) => {
-    // Definimos qué categorías son válidas para el slot que se está editando
     const categories = SLOT_CATEGORY_MAP[slotKey] || [];
     const [currentCategory, setCurrentCategory] = useState(categories[0]?.name || null);
 
-    // Mapeamos ítems para la categoría actual
     const currentItems = categories
         .find(cat => cat.name === currentCategory)
         ?.items || [];
-    
-    // Obtener la clave de ID de la categoría para prefiltrar en el mapa
-    const currentCategoryKey = categories.find(cat => cat.name === currentCategory)?.items[0]?.split('_').slice(0, 3).join('_') || '';
         
-    // Si no hay ítems válidos, cerramos
     if (categories.length === 0) {
         return (
-            // Clases del CSS externo
             <div className="item-selector-overlay">
                 <div className="item-selector-modal">
                     <p>No hay ítems definidos para este slot.</p>
@@ -201,7 +190,6 @@ const ItemSelector = ({ slotKey, onClose, onSelect }) => {
     }
 
     return (
-        // Clases del CSS externo
         <div className="item-selector-overlay">
             <div className="item-selector-modal">
                 <div className="modal-header">
@@ -209,12 +197,10 @@ const ItemSelector = ({ slotKey, onClose, onSelect }) => {
                     <button onClick={onClose} className="close-button"><X size={20}/></button>
                 </div>
                 
-                {/* Pestañas de Categoría (Ej: Placa, Cuero, Tela) */}
                 <div className="category-tabs">
                     {categories.map(cat => (
                         <button 
                             key={cat.name} 
-                            // Clases del CSS externo
                             className={`tab-button ${cat.name === currentCategory ? 'tab-active' : ''}`}
                             onClick={() => setCurrentCategory(cat.name)}
                         >
@@ -223,12 +209,10 @@ const ItemSelector = ({ slotKey, onClose, onSelect }) => {
                     ))}
                 </div>
 
-                {/* Contenedor de Ítems */}
                 <div className="item-list-container">
                     {currentItems.map(itemId => (
                         <div 
                             key={itemId} 
-                            // Clases del CSS externo
                             className="item-selection-card" 
                             onClick={() => onSelect(slotKey, itemId)}
                         >
@@ -248,19 +232,16 @@ const ItemSelector = ({ slotKey, onClose, onSelect }) => {
 
 
 // --- COMPONENTE BuildCreator PRINCIPAL ---
-export const BuildCreator = () => {
+// Recibe userId de Dashboard
+export const BuildCreator = ({ userId }) => { 
     
-    
-
     // --- ESTADOS PRINCIPALES ---
     const [selectedItems, setSelectedItems] = useState({
-        head: null,  mainhand: null, chest: null, offhand: null, shoes: null
+        head: null, mainhand: null, chest: null, offhand: null, shoes: null
     });
     const [isSelectorOpen, setIsSelectorOpen] = useState(false);
     const [currentSlotKey, setCurrentSlotKey] = useState(null);
     // ----------------------------
-
-    
     
     const activities = [
         { key: 'solo-pve', label: 'Solo PvE', icon: '👤' },
@@ -303,8 +284,13 @@ export const BuildCreator = () => {
         setBuildDetails(prev => ({ ...prev, [name]: value }));
     };
 
-    // LÓGICA DE GUARDADO UTILIZANDO localStorage
-    const handleSave = (isPublic) => {
+    // LÓGICA DE GUARDADO MODIFICADA: Ahora es asíncrona y usa userId y Firebase
+    const handleSave = async (isPublic) => {
+        if (!userId) {
+            alert("Error de autenticación. Por favor, reinicia la sesión para guardar tu build.");
+            return;
+        }
+
         if (!buildDetails.name.trim()) {
             alert("Por favor, dale un nombre a tu Build antes de guardarla.");
             return;
@@ -321,22 +307,27 @@ export const BuildCreator = () => {
             description: buildDetails.description,
             activityType: buildDetails.activityType,
             equipment: selectedItems, 
+            userId: userId,     // Añade el ID del usuario
+            isPublic: isPublic, // Añade el estado de publicación
         };
 
-        // Usa la función de utilidad para guardar
-        saveNewBuild(buildData, isPublic);
+        try {
+            // ✅ CORRECCIÓN: Usamos 'saveBuild' y pasamos el objeto buildData completo.
+            await saveBuild(buildData);
 
-        const type = isPublic ? 'Pública' : 'Privada';
-        alert(`Build '${buildDetails.name}' guardada localmente como ${type}.`);
-        
-        // Reiniciar estados
-        setSelectedItems({  head: null,  mainhand: null, chest: null, offhand: null, shoes: null });
-        setBuildDetails({ name: '', description: '', activityType: 'solo-pve' });
+            const type = isPublic ? 'Pública' : 'Privada';
+            alert(`Build '${buildDetails.name}' guardada en la Nube como ${type}.`);
+            
+            // Reiniciar estados
+            setSelectedItems({ head: null, mainhand: null, chest: null, offhand: null, shoes: null });
+            setBuildDetails({ name: '', description: '', activityType: 'solo-pve' });
+        } catch (error) {
+             alert(`Error al guardar la build: ${error.message}`);
+        }
     };
 
     // Slot definitions with layout styles
     const slots = [
-        // Las propiedades 'style' quedan aquí porque definen la posición ABSOLUTA
         { key: 'head', name: 'Casco', style: { top: '20%', left: '50%' } },
         { key: 'mainhand', name: 'Arma Principal', style: { top: '50%', left: '25%' } },
         { key: 'chest', name: 'Armadura', style: { top: '50%', left: '50%' } },
@@ -350,14 +341,12 @@ export const BuildCreator = () => {
         const isFilled = !!itemId;
         
         return (
-            // Clases del CSS externo
             <div 
                 className={`equipment-slot ${isFilled ? 'equipment-slot-filled' : 'empty-slot'}`}
                 onClick={() => handleSlotClick(key)}
                 onContextMenu={(e) => handleClearSlot(key, e)} // Usar clic derecho para limpiar
                 title={isFilled ? ITEM_NAME_MAP[itemId] || itemId : `Seleccionar ${slots.find(s => s.key === key)?.name}`}
             >
-                {/* Clase del CSS externo */}
                 <span className="slot-name">{slots.find(s => s.key === key)?.name.split(' ')[0]}</span>
                 {isFilled ? (
                     <img 
@@ -375,9 +364,7 @@ export const BuildCreator = () => {
     };
 
     return (
-        // Clase del CSS externo
         <div className="build-creator-container">
-            {/* ELIMINAMOS la inserción de ComponentStyles */}
             
             {/* Renderizar el selector si está abierto */}
             {isSelectorOpen && (
@@ -388,20 +375,15 @@ export const BuildCreator = () => {
                 />
             )}
 
-            {/* Clases del CSS externo */}
             <h1 className="dashboard-title">🔨 Creador de Builds</h1>
             <p className="dashboard-subtitle">Ensambla tu equipamiento y comparte tu estrategia con la comunidad. (Clic derecho para limpiar un slot).</p>
             
             <div className="creation-layout">
-                {/* Columna 1: Visualización y Stats */}
+                {/* Columna 1: Visualización y Slots */}
                 <div className="layout-col build-preview-area">
-                    
                     <div className="character-display">
-                    
-
                         {/* Renderizado de Slots */}
                         {slots.map(slot => (
-                            // Clase del CSS externo
                             <div 
                                 key={slot.key} 
                                 className="equipment-slot-wrapper" 

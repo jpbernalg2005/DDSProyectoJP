@@ -1,83 +1,81 @@
+// app.jsx
+
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react"; 
+import { onAuthStateChanged } from "firebase/auth"; // Nuevo: Listener de Auth
+import { auth } from "./firebase.js"; // Nuevo: Importa Auth
 import Login from "./pages/Login.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import Register from "./pages/Register.jsx";
 
-// Función para obtener los usuarios iniciales de localStorage o usar el default
-const getInitialUsers = () => {
-  const savedUsers = localStorage.getItem("users");
-  return savedUsers
-    ? JSON.parse(savedUsers)
-    : [{ username: "admin", password: "1234" }]; // Usuario por defecto
-};
-
-// Función para obtener el estado de login inicial de localStorage
-const getInitialLoginState = () => {
-  return localStorage.getItem("isLoggedIn") === "true";
-};
-
+// ... (elimina o comenta getInitialUsers y getInitialLoginState)
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(getInitialLoginState); // Inicializa desde LocalStorage
-  const [users, setUsers] = useState(getInitialUsers); //Inicializa desde LocalStorage
+  // Estado para almacenar el objeto de usuario de Firebase (incluye ID, etc.)
+  const [currentUser, setCurrentUser] = useState(null); 
+  // Estado para saber si la autenticación está lista (para evitar redirecciones prematuras)
+  const [isLoading, setIsLoading] = useState(true);
 
-  // EFECTO para persistir el estado de isLoggedIn 
-  useEffect(() => {
-    localStorage.setItem("isLoggedIn", isLoggedIn);
-  }, [isLoggedIn]);
+  // EFECTO para escuchar cambios de autenticación de Firebase
+  useEffect(() => {
+    // onAuthStateChanged se activa en login, logout y al cargar la app
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+        setCurrentUser(user); // user será null si no hay sesión
+        setIsLoading(false); // La carga inicial ha terminado
+    });
 
-  // EFECTO para persistir la lista de usuarios 
-  useEffect(() => {
-    localStorage.setItem("users", JSON.stringify(users));
-  }, [users]);
+    // Limpia el listener al desmontar
+    return () => unsubscribe();
+  }, []);
 
 
-  const registerUser = (newUserData) => {
-    setUsers((prevUsers) => [...prevUsers, newUserData]);
-  };
+  // Si estamos cargando, no renderizamos nada (o un spinner)
+  if (isLoading) {
+    return <div>Cargando sesión...</div>; 
+  }
 
-  return (
-    <Routes>
-      {/* 1. Ruta de Inicio (Login/Home) */}
-      <Route
-        path="/"
-        element={
-          isLoggedIn ? (
-            <Navigate to="/dashboard" />
-          ) : (
-            // Pasamos la lista de usuarios para la validación
-            <Login setIsLoggedIn={setIsLoggedIn} users={users} />
-          )
-        }
-      />
-      
-      {/* 2. Ruta de Registro */}
-      <Route
-        path="/register"
-        element={
-          isLoggedIn ? (
-            <Navigate to="/dashboard" />
-          ) : (
-            // Pasamos la función y la lista para evitar duplicados
-            <Register registerUser={registerUser} users={users} />
-          )
-        }
-      />
-      
-      {/* 3. Ruta de Dashboard (Protegida) */}
-      <Route
-        path="/dashboard"
-        element={
-          isLoggedIn ? (
-            <Dashboard setIsLoggedIn={setIsLoggedIn} />
-          ) : (
-            <Navigate to="/" />
-          )
-        }
-      />
-    </Routes>
-  );
+  const isLoggedIn = !!currentUser; // Verdadero si currentUser no es null
+
+  return (
+    <Routes>
+      {/* Ruta de Inicio (Login/Home) */}
+      <Route
+        path="/"
+        element={
+          isLoggedIn ? (
+            <Navigate to="/dashboard" />
+          ) : (
+            <Login /> // Ya no necesita pasar props, usa la lógica de Firebase interna
+          )
+        }
+      />
+      
+      {/* Ruta de Registro */}
+      <Route
+        path="/register"
+        element={
+          isLoggedIn ? (
+            <Navigate to="/dashboard" />
+          ) : (
+            <Register /> // Ya no necesita pasar props, usa la lógica de Firebase interna
+          )
+        }
+      />
+      
+      {/* Ruta de Dashboard (Protegida) */}
+      <Route
+        path="/dashboard"
+        element={
+          isLoggedIn ? (
+            // Pasamos el usuario a Dashboard para que acceda a su ID
+            <Dashboard currentUser={currentUser} /> 
+          ) : (
+            <Navigate to="/" />
+          )
+        }
+      />
+    </Routes>
+  );
 }
 
 export default App;
