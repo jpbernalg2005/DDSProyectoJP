@@ -36,9 +36,9 @@ Necesitas tener [Node.js](https://nodejs.org/en) (versión LTS) y npm o yarn ins
 ### 2. Clonar e Instalar Dependencias
 
 ```bash
-# Clonar el repositorio (asumiendo que está en un repo)
+# Clonar el repositorio 
 # git clone [URL_DEL_REPOSITORIO]
-# cd warrior-codex
+# cd albion-builds
 
 # Instalar dependencias de React y Firebase
 npm install
