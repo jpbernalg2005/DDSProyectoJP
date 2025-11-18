@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 // Importamos la función específica para la comunidad
 import { getPublicBuilds } from '../utils/storage.js'; 
-import { BuildCard } from './Buildcard.jsx'; 
+import { BuildCard } from './buildcard.jsx'; 
 
 export const CommunityBuilds = () => {
     const [communityBuilds, setCommunityBuilds] = useState([]);
