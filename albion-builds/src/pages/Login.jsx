@@ -1,12 +1,10 @@
-// pages/Login.jsx
-
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom"; // Importar useNavigate
-import { loginWithEmail } from "../utils/auth.js"; // Importar función de Login
+import { Link, useNavigate } from "react-router-dom"; 
+// Importar la nueva función
+import { loginWithEmail, signInWithGoogle } from "../utils/auth.js"; 
 import "../styles/Login.css";
 import LogoImage from '../assets/Logo.png';
 
-// Ya no necesita recibir props
 export default function Login() { 
   const [form, setForm] = useState({ username: "", password: "" });
   const navigate = useNavigate();
@@ -15,20 +13,25 @@ export default function Login() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => { // Función asíncrona
+  const handleSubmit = async (e) => { // Función asíncrona para el formulario principal
     e.preventDefault();
     try {
-        // Intenta iniciar sesión
         await loginWithEmail(form.username, form.password);
-        // Firebase se encarga de la redirección a /dashboard a través de App.jsx
-        // navigate('/dashboard'); (Opcional si quieres forzar la redirección)
     } catch (error) {
         alert(`Error al iniciar sesión: ${error.message}`);
     }
   };
 
-  // ... (el resto del JSX se mantiene igual)
-// ... (JSX de Login)
+  // --- HANDLER PARA GOOGLE ---
+  const handleGoogleLogin = async () => {
+    try {
+        await signInWithGoogle();
+        // Nota: App.jsx detectará el cambio de sesión y te redirigirá automáticamente.
+    } catch (error) {
+        alert(error.message);
+    }
+  };
+
   return (
 <div className="albion-login-container azul">
             <div className="logo-container">
@@ -55,15 +58,14 @@ export default function Login() {
             required
           />
 
-          {/* ... Botones Sociales y Checkbox ... */}
           <div className="social-login-group">
-            <button type="button" className="social-btn facebook"></button>
-            <button type="button" className="social-btn google"></button>
-            <button type="button" className="social-btn apple"></button>
-          </div>
-          <div className="social-login-group bottom-row">
-            <button type="button" className="social-btn xbox"></button>
-            <button type="button" className="social-btn ps"></button>
+            {/* ASIGNAMOS EL HANDLER A GOOGLE */}
+            <button 
+                type="button" 
+                className="social-btn google"
+                onClick={handleGoogleLogin} 
+            ></button>
+
           </div>
 
           <div className="checkbox-row">

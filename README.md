@@ -5,7 +5,7 @@
 
 ## ✨ Características Principales
 
-* **Autenticación de Usuario:** Registro e inicio de sesión seguro con Firebase Authentication.
+* **Autenticación de Usuario:** Registro e inicio de sesión seguro con Firebase Authentication y Google.
 * **Creación de Builds:** Interfaz visual para seleccionar equipos T8 (Armas y Armaduras).
 * **Guardado Persistente:** Las *builds* se guardan en **Firestore Database** y están vinculadas al ID único del usuario.
 * **Manejo de Roles:** Posibilidad de guardar *builds* como **Privadas** (solo visibles por el dueño) o **Públicas** (visibles en la Comunidad).

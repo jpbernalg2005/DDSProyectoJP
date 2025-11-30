@@ -76,17 +76,6 @@ export default function Register() {
             required
           />
 
-          {/* ... Botones Sociales y Submit ... */}
-          <div className="social-login-group">
-            <button type="button" className="social-btn facebook"></button>
-            <button type="button" className="social-btn google"></button>
-            <button type="button" className="social-btn apple"></button>
-          </div>
-          <div className="social-login-group bottom-row">
-            <button type="button" className="social-btn xbox"></button>
-            <button type="button" className="social-btn ps"></button>
-          </div>
-          
           <button type="submit" className="submit-btn">→</button>
 
         </form>

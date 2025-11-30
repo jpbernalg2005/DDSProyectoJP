@@ -1,11 +1,11 @@
-// src/utils/auth.js
-
 import { 
     createUserWithEmailAndPassword, 
     signInWithEmailAndPassword,
-    signOut
+    signOut,
+    GoogleAuthProvider, 
+    signInWithPopup 
 } from "firebase/auth";
-import { auth } from "../firebase.js"; 
+import { auth } from "../firebase.js";
 
 // Función de limpieza de username antes de usarlo como email
 const toEmail = (username) => {
@@ -24,7 +24,6 @@ const toEmail = (username) => {
 
 // --- REGISTRO ---
 export const registerWithEmail = async (username, password) => {
-    // Aquí es donde puede fallar si toEmail lanza un error, o si el cleanedUsername no es aceptado por Firebase.
     const email = toEmail(username); 
     
     try {
@@ -39,9 +38,9 @@ export const registerWithEmail = async (username, password) => {
     }
 };
 
-// --- INICIO DE SESIÓN ---
+// --- INICIO DE SESIÓN (EMAIL/PASS) ---
 export const loginWithEmail = async (username, password) => {
-    const email = toEmail(username); // También aplicamos la limpieza al login
+    const email = toEmail(username);
     try {
         const userCredential = await signInWithEmailAndPassword(
             auth,
@@ -54,8 +53,26 @@ export const loginWithEmail = async (username, password) => {
     }
 };
 
-// ... (logoutUser se mantiene igual)
-// ... (logoutUser se mantiene igual)
+// --- INICIO DE SESIÓN (GOOGLE) ---
+export const signInWithGoogle = async () => {
+    const provider = new GoogleAuthProvider();
+    
+    try {
+        const result = await signInWithPopup(auth, provider);
+        return result.user;
+    } catch (error) {
+        console.error("Error de autenticación con Google:", error);
+        
+        if (error.code && error.code === 'auth/popup-closed-by-user') {
+            throw new Error("Inicio de sesión cancelado.");
+        } else if (error.code) {
+             throw new Error(`Error de Google: ${error.code.replace('auth/', '')}`);
+        } else {
+             throw new Error("El inicio de sesión con Google falló.");
+        }
+    }
+}; 
+
 // --- CERRAR SESIÓN ---
 export const logoutUser = () => {
     return signOut(auth);

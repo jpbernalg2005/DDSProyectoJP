@@ -44,12 +44,6 @@ export const Navbar = ({ handleLogout, currentRoute, navigate }) => {
 
             {/* Acciones y Buscador (sin cambios) */}
             <div className="navbar-actions">
-                <div className="search-bar">
-                    <input type="text" placeholder="Buscar builds..." className="search-input"/>
-                    <button className="search-button" aria-label="Buscar">
-                        <Search size={18}/>
-                    </button>
-                </div>
                 
                 <button 
                     onClick={handleLogout} 
